@@ -1,121 +1,214 @@
 ![licence:free to use](https://img.shields.io/badge/licence-free--to--use-blue)  [![Linkedin Badge](https://img.shields.io/badge/-gurpreetsingh89-blue?style=flat&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/gurpreetsingh89/)](https://www.linkedin.com/in/gurpreetsingh89/)  [![dev.to Badge](https://img.shields.io/badge/-@gurpreetsingh-000000?style=flat&labelColor=000000&logo=dev.to&link=https://dev.to/gurpreetsingh)](https://dev.to/gurpreetsingh) 
 
-# Git-Cheetsheet
-A cheat sheet for uncommon Git commands
+# Git
 
-## Configuration
-| Command | Description |
-| - | - |
-| `git config --global user.name "foo"`              | Set user name |
-| `git config --global user.email "foo@example.com"` | Set user email |
+##### Table of Contents  
+[Mostly used](#mostly-used)  
+[Getting Help](#getting-help)  
+[Setup](#setup)  
+[Staging](#staging)  
+[Commiting](#commiting)  
+[Branching](#branching)  
+[Teamwork](#teamwork)  
+[Removing](#removing)  
+[Ignoring](#ignoring)  
+[Renaming](#renaming)  
+[Stashing](#stashing)  
 
-## Branches
-| Command | Description |
-| - | - |
-| `git branch foo`                          | Create a new branch |
-| `git branch -d foo`                       | Deletes a branch |
-| `git switch foo`                          | Switch to a branch |
-| `git switch -c\|--create foo`             | Create and switch to a branch |
-| `git checkout foo.js`                     | Undo all changes on the foo.js file |
-| `git checkout foo`                        | Use `git switch` instead |
-| `git checkout -b foo`                     | Use `git switch -c` instead |
-| `git merge foo`                           | Merge branch into current branch |
+## Mostly used
+```javascript
+$ git init // to initialize  
+$ git status // to check what’s in the folder  
+$ git add filename1 filename2 // to add files to git  
+git add . // adds all files  
+$ git diff filename // to see the differences // q to quit  
+$ git commit -m “text” // to commit the changes  
+$ git log // to see all commits  
+$ git branch -a // show’s all branches and highlight the one you’re on  
+$ git checkout branchname // to switch to a branch  
+$ git branch branch-name // create a branch  
+$ git reset 5d69206 // the 7 first numbers of the commit you want to reset  
+$ git remote prune origin // Clean-up outdated references to remote branches
+```
+In Git, the commit you are on is known as the HEAD commit. In many cases, the most recently made commit is the HEAD commit. To see the HEAD commit, enter: $git show head
 
-## Pulling
-| Command | Description |
-| - | - |
-| `git pull --rebase --prune`               | Get latest, rebase any changes not checked in and delete branches that no longer exist | 
+Git has three main states that your files can be in: committed, modified, and staged
 
-## Staged Changes
-| Command | Description |
-| - | - |
-| `git add file.txt`                        | Stage file |
-| `git add --patch file.txt`                | Stage some but not all changes in a file |
-| `git mv file1.txt file2.txt`              | Move/rename file |
-| `git rm --cached file.txt`                | Unstage file |
-| `git rm --force file.txt`                 | Unstage and delete file |
-| `git reset HEAD`                          | Unstage changes |
-| `git reset --hard HEAD`                   | Unstage and delete changes |
-| `git clean -f\|--force -d`                 | Recursively remove untracked files from the working tree |
-| `git clean -f\|--force -d -x`              | Recursively remove untracked and ignored files from the working tree |
+**Modified**: file was changed but not commited yet.  
+**Staged**: file marked in its current version to go in next commit.  
+**Committed**: data safely stored in local database.  
 
-## Changing Commits
-| Command | Description |
-| - | - |
-| `git reset 5720fdf`                           | Reset current branch but not working area to commit |
-| `git reset HEAD~1`                            | Reset the current branch but not working area to the previous commit |
-| `git reset --hard 5720fdf`                    | Reset current branch and working area to commit |
-| `git commit --amend -m "New message"`         | Change the last commit message |
-| `git commit --fixup 5720fdf -m "New message"` | Merge into the specified commit |
-| `git revert 5720fdf`                          | Revert a commit |
-| `git rebase --interactive [origin/main]`    | Rebase a PR (`git pull` first) |
-| `git rebase --interactive 5720fdf`            | Rebase to a particular commit |
-| `git rebase --interactive --root 5720fdf`     | Rebase to the root commit |
-| `git rebase --continue`                       | Continue an interactive rebase |
-| `git rebase --abort`                          | Cancel an interactive rebase |
-| `git cherry-pick 5720fdf`                     | Copy the commit to the current branch |
+**Working directory** – single checkout of one version of the project  
+**Staging area (also Index)** – stores data about what to be commited  
+**Git directory (Repository)** – main backup place  
 
-## Compare
-| Command | Description |
-| - | - |
-| `git diff`                                | See difference between working area and current branch |
-| `git diff HEAD HEAD~2`                    | See difference between te current commit and two previous commits |
-| `git diff main other`                   | See difference between two branches |
+The basic Git workflow goes something like this:  
+You modify files in your working directory.  
+You stage the files, adding snapshots of them to your staging area.  
+You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.  
 
-## View
-| Command | Description |
-| - | - |
-| `git log`                                 | See commit list |
-| `git log --patch`                         | See commit list and line changes |
-| `git log --decorate --graph --oneline`    | See commit visualization |
-| `git log --grep foo`                      | See commits with foo in the message |
-| `git show HEAD`                           | Show the current commit |
-| `git show HEAD^` or `git show HEAD~1`     | Show the previous commit |
-| `git show HEAD^^` or `git show HEAD~2`    | Show the commit going back two commits |
-| `git show main`                         | Show the last commit in a branch |
-| `git show 5720fdf`                        | Show named commit |
-| `git blame file.txt`                      | See who changed each line and when |
+## Getting Help
+#### Within git
+git help &lt;verb&gt;  
+git &lt;verb&gt; --help  
+man git-&lt;verb&gt;  
+#### outside of git
+in the #git or #github channel on the Freenode IRC server (irc.freenode.net)
 
-## Stash
-| Command | Description |
-| - | - |
-| `git stash push -m "Message"`             | Stash staged files |
-| `git stash --include-untracked`           | Stash working area and staged files |
-| `git stash list`                          | List stashes |
-| `git stash apply`                         | Moved last stash to working area |
-| `git stash apply 0`                       | Moved named stash to working area |
-| `git stash clear`                         | Clear the stash |
+```javascript
+$ git status // full status  
+$ git status -s // simplified status (?? = new files not tracked yet A = staged M = modified MM = modified, staged and then modified again so both staged and unstaged)  
+$ git diff // compares staged with not staged  
+$ git diff --staged // compares staged with commited  
+(--staged and --cached are synonyms)
+```
 
-## Tags
-| Command | Description |
-| - | - |
-| `git tag`                                            | List all tags |
-| `git tag -a\|--annotate 0.0.1 -m\|--message "Message"` | Create a tag |
-| `git tag -d\|--delete 0.0.1`                          | Delete a tag |
-| `git push --tags`                                    | Push tags to remote repository |
+## Setup  
+#### Global  
+```javascript
+$ git config --global user.name "John Doe"  
+$ git config --global user.email johndoe@example.com  
+$ git config --list // to show all settings
+```
+#### Project
+```javascript
+$ git init // adds git
+```
+#### New
+```javascript
+$ git add .  
+$ git commit -m 'initial project version'  
+$ git remote add origin URL  
+$ git push -u origin master
+```
+#### Existing
+```javascript
+$ git clone URL (directory name, optional)  
+$ git clone --depth=16 URL // only take the last 16 commits (faster download)
+```
 
-## Remote
-| Command | Description |
-| - | - |
-| `git remote -v`                           | List remote repositories |
-| `git remote show origin`                  | Show remote repository details |
-| `git remote add upstream <url>`           | Add remote upstream repository |
-| `git fetch upstream`                      | Fetch all remote branches |
-| `git rebase upstream/main`              | Refresh main branch from upstream |
-| `git remote -v`                           | List remote repositories |
-| `git push --tags`                         | Push tags to remote repository |
+## Staging
+```javascript
+$ git add filename // stages the file exactly how it is at this moment, for every change this command has to be run again to stage the new version.
+```
 
-## Submodules
-| Command | Description |
-| - | - |
-| `git submodule status`                    | Check status of all submodules |
+## Commiting
+```javascript
+$ git commit // commits with basic info + large message  
+$ git commit -v // commits with changes + message  
+$ git commit -m // commits basic info + message inline  
+$ git commit -a // commits basic info + message & git add all files  
+```
 
-- Pull submodules
-  1. `git submodule sync`
-  2. `git submodule init`
-  3. `git submodule update`
-- Change branch
-  1. `cd /submodule`
-  2. `git fetch origin <branch-name>`
-  3. `git checkout <branch-name>`
-  4. `cd /`
+## Branching
+```javascript
+$ git branch // show’s the branch you’re on  
+$ git branch branch-name // create a branch  
+$ git branch -d branch-name // delete the branch  
+
+$ git checkout branch-name // switches to the specified branch  
+$ git merge branch-name // merges the actual branch with the branch specified
+```
+
+## Teamwork
+```javascript
+$ git clone remote-location clone-name // clones a remote git project. Location of original + a name for your directory. The original will get the name origin  
+
+$ git remote -v // Lists a Git project's remotes.  
+
+$ git fetch // gets any possible changes and stores them into a branch called origin/master  
+
+$ git merge origin/master // merges the fetched stuff with your local stuff  
+
+$ git push origin your-branch-name // pushes your branch to the origin where it can be reviewed and added.  
+
+$ git rebase develop // merge the develop branch with your branch  
+
+$ git pull // Get latest Data from the actual branch  
+$ git pull --rebase remote-name branch-name // http://gitready.com/advanced/2009/02/11/pull-with-rebase.html  
+
+$ git branch -a // Show all available branches  
+$ git checkout branchname // Switch to a branch  
+```
+Configure a remote for a fork: https://help.github.com/articles/configuring-a-remote-for-a-fork/  
+Sync your fork: https://help.github.com/articles/syncing-a-fork/  
+
+#### Teamwork Workflow:
+Fetch and merge changes from the remote  
+Create a branch to work on a new project feature  
+Develop the feature on your branch and commit your work  
+(Fetch and merge from the remote again (in case new commits were made while you were working))  
+Push your branch up to the remote for review  
+> Make Pull Request (WIP)  
+> Merge
+
+## Removing
+```javascript
+$ git rm // remove file  
+$ git rm -f // to remove it when it’s already in the index  
+$ git rm --cached // keep on hard drive but remove from being tracked  
+$ git rm --cached -r // remove a folder keep on hard drive but remove from being tracked  
+$ git rm log&sol;&bsol;&ast;.log // removes all files that have the .log extension in the log/ directory  
+$ git rm &bsol;&ast;~ // removes all files that end with ~  
+$ git mv file-from file-to // to rename a file  
+$ git branch -d branch-name // delete the branch  
+```
+
+## Ignoring
+Create a .gitignore file and write in that file:  
+&ast;.[oa] –– ignore any files ending in “.o” or “.a”  
+&ast;~ –– ignore all files that end with a tilde (~) which is used by many text editors such as Emacs to mark temporary files
+
+#### Rules
+Blank lines or lines starting with # are ignored.  
+Standard glob patterns work.  
+You can start patterns with a forward slash / to avoid recursivity.  
+You can end patterns with a forward slash / to specify a directory.  
+You can negate a pattern by starting it with an exclamation point !.  
+&ast; matches zero or more characters  
+[abc] matches any character inside the brackets (in this case a, b, or c)  
+? matches a single character   
+[0-9] matches any character between them (in this case 0 through 9)  
+a/&ast;&ast;/z would match a/z, a/b/z, a/b/c/z, and so on.  
+Example  
+&ast;.a –– no .a files  
+!lib.a –– but do track lib.a, even though you're ignoring .a files above  
+/TODO –– only ignore the TODO file in the current directory, not subdir/TODO  
+build/ –– ignore all files in the build/ directory  
+doc/&ast;.txt –– ignore doc/notes.txt, but not doc/server/arch.txt  
+doc/&ast;&ast;/&ast;.pdf –– ignore all .pdf files in the doc/ directory  
+Templates: https://github.com/github/gitignore
+
+## Renaming
+```javascript
+$ git mv file-from file-to  
+// Is the equivalent to:  
+// mv README.md README  
+$ git rm README.md  
+$ git add README
+```
+
+
+
+## Deploying a subfolder to GitHub Pages  
+Use subtree push to send it to the gh-pages branch on GitHub.  
+```javascript
+$ git subtree push --prefix dist origin gh-pages
+```
+Boom. If your folder isn’t called dist, then you’ll need to change that in each of the commands above.  
+
+
+
+## Stashing  
+If you want to put your changes temporarely aside and pull new stuff use stash:
+```javascript
+$ git stash
+$ git pull
+$ git stash pop
+```
+
+to remove a stash completely:  
+```javascript
+$ git stash drop
+```
+
